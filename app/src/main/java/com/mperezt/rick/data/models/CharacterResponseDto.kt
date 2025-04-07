@@ -20,7 +20,7 @@ data class CharacterDto(
     val species: String,
     val type: String,
     val gender: String,
-    val origin: LocationDto,
+    val origin: OriginDto,
     val location: LocationDto,
     val image: String,
     val episode: List<String>,
@@ -32,3 +32,9 @@ data class LocationDto(
     val name: String,
     val url: String
 )
+
+data class OriginDto(
+    val name: String,
+    val url: String
+)
+

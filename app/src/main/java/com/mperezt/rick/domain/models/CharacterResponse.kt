@@ -19,7 +19,7 @@ data class Character(
     val species: String,
     val type: String,
     val gender: String,
-    val origin: Location,
+    val origin: Origin,
     val location: Location,
     val image: String,
     val episode: List<String>,
@@ -28,6 +28,10 @@ data class Character(
 )
 
 data class Location(
+    val name: String,
+    val url: String
+)
+data class Origin(
     val name: String,
     val url: String
 )

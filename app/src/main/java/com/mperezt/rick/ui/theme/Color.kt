@@ -9,3 +9,23 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+// Dark/Grey colors
+val NeutralDark = Color(0xFF2F3036)
+val NeutralDarkMedium = Color(0xFF494A50)
+val NeutralDarkLight = Color(0xFF71727A)
+val NeutralDarkDark = Color(0xFF2F3036)
+// Light/Grey colors
+val LightGrey = Color(0xFF9E9E9E)
+val LightGreyLight = Color(0xFFD3D3D3)
+val LightGreyDark = Color(0xFFD4D6DD)
+// Basic colors
+val Black = Color(0xFF000000)
+val White = Color(0xFFFFFFFF)
+
+// Green colors
+val LightGreen = Color(0xFFE7F4E8)
+val Green = Color(0xFF298267)
+
+// Red colors
+val LightRed = Color(0xFFFFE2E5)
+val Red = Color(0xFFED3241)
