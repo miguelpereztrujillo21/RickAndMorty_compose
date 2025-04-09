@@ -24,7 +24,7 @@ android {
         release {
             isMinifyEnabled = false
             debug {
-                buildConfigField("String", "API_URL", "\"https://rickandmortyapi.com/api\"")
+                buildConfigField("String", "API_URL", "\"https://rickandmortyapi.com/api/\"")
             }
 
             release {
@@ -33,7 +33,7 @@ android {
                     getDefaultProguardFile("proguard-android-optimize.txt"),
                     "proguard-rules.pro"
                 )
-                buildConfigField("String", "API_URL", "\"https://rickandmortyapi.com/api\"")
+                buildConfigField("String", "API_URL", "\"https://rickandmortyapi.com/api/\"")
             }
         }
     }
@@ -71,10 +71,13 @@ dependencies {
     // Dagger Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.compiler)
-
+    // Navigation
+    implementation(libs.hilt.navigation.compose)
     // Retrofit and Okhttp3
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
+    //Coil
+    implementation(libs.coil.compose)
 }

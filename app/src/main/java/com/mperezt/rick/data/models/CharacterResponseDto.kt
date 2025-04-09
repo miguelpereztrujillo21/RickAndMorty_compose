@@ -1,40 +1,41 @@
 package com.mperezt.rick.data.models
 
+import com.google.gson.annotations.SerializedName
 
 data class CharacterResponseDto(
-    val info: InfoDto,
-    val results: List<CharacterDto>
+    @SerializedName("info") val info: InfoDto,
+    @SerializedName("results") val results: List<CharacterDto>
 )
 
 data class InfoDto(
-    val count: Int,
-    val pages: Int,
-    val next: String?,
-    val prev: String?
+    @SerializedName("count") val count: Int,
+    @SerializedName("pages") val pages: Int,
+    @SerializedName("next") val next: String?,
+    @SerializedName("prev") val prev: String?
 )
 
 data class CharacterDto(
-    val id: Int,
-    val name: String,
-    val status: String,
-    val species: String,
-    val type: String,
-    val gender: String,
-    val origin: OriginDto,
-    val location: LocationDto,
-    val image: String,
-    val episode: List<String>,
-    val url: String,
-    val created: String
+    @SerializedName("id") val id: Int,
+    @SerializedName("name") val name: String,
+    @SerializedName("status") val status: String,
+    @SerializedName("species") val species: String,
+    @SerializedName("type") val type: String,
+    @SerializedName("gender") val gender: String,
+    @SerializedName("origin") val origin: OriginDto,
+    @SerializedName("location") val location: LocationDto,
+    @SerializedName("image") val image: String,
+    @SerializedName("episode") val episode: List<String>,
+    @SerializedName("url") val url: String,
+    @SerializedName("created") val created: String
 )
 
 data class LocationDto(
-    val name: String,
-    val url: String
+    @SerializedName("name") val name: String,
+    @SerializedName("url") val url: String
 )
 
 data class OriginDto(
-    val name: String,
-    val url: String
+    @SerializedName("name") val name: String,
+    @SerializedName("url") val url: String
 )
 
