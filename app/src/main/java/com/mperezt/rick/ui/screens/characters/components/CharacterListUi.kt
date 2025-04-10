@@ -8,8 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -17,13 +15,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import com.mperezt.rick.ui.models.CharacterUi
+import com.mperezt.rick.ui.theme.Padding
+import com.mperezt.rick.ui.theme.Space
 
 @Composable
 fun CharacterListUI(characters: List<CharacterUi>, onCharacterSelected: (Int) -> Unit) {
-    LazyColumn {
-        items(characters) { character ->
-            CharacterListItem(character = character, onClick = { onCharacterSelected(character.id) })
-        }
+    characters.forEach { character ->
+        CharacterListItem(character = character, onClick = { onCharacterSelected(character.id) })
     }
 }
 
@@ -32,9 +30,9 @@ fun CharacterListItem(character: CharacterUi, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(Padding.Base)
             .clickable { onClick() },
-        horizontalArrangement = Arrangement.spacedBy(16.dp)
+        horizontalArrangement = Arrangement.spacedBy(Space.Base)
     ) {
         Image(painter = rememberAsyncImagePainter(character.image), contentDescription = null, modifier = Modifier.size(50.dp))
         Column {
