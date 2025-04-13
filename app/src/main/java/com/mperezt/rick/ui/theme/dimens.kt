@@ -1,8 +1,10 @@
 package com.mperezt.rick.ui.theme
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 
 object Padding {
+    val None = 0.dp
     val ExtraExtraSmall = 2.dp
     val ExtraSmall = 4.dp
     val Small = 8.dp
@@ -89,5 +91,19 @@ object Elevation {
     val ExtraExtraLarge = 36.dp
     val Huge = 40.dp
     val Massive = 48.dp
+}
+
+object FontSize {
+    val ExtraSmall = 10.sp
+    val Small = 12.sp
+    val Medium = 14.sp
+    val Base = 16.sp
+    val Large = 18.sp
+    val ExtraLarge = 20.sp
+    val Headline = 24.sp
+    val Title = 28.sp
+    val Display = 34.sp
+    val Jumbo = 40.sp
+    val Massive = 48.sp
 }
 

@@ -1,7 +1,11 @@
 package com.mperezt.rick.ui.screens.characters
 
 import android.widget.Toast
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -30,9 +34,12 @@ fun CharactersScreen(
                 is CharactersEvent.NavigateToDetail -> {
                     onNavigateToDetail(event.characterId)
                 }
+
                 is CharactersEvent.OnError -> {
-                    Toast.makeText(context, R.string.character_carge_error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.character_carge_error, Toast.LENGTH_SHORT)
+                        .show()
                 }
+
                 is CharactersEvent.OnCharactesLoaded -> {
 
                 }
@@ -44,18 +51,21 @@ fun CharactersScreen(
         state.isLoading && state.characters == null -> {
             LoadingScreen()
         }
+
         state.error != null && state.characters == null -> {
             ErrorScreen(
                 message = state.error.toString(),
                 onRetry = { viewModel.loadCharacters() }
             )
         }
+
         else -> {
             val characters = state.characters?.results.orEmpty()
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(WindowInsets.statusBars.asPaddingValues())
             ) {
-                // Componente de filtros (lo añadiremos después)
                 item {
                     CharactersFiltersUi(
                         initialFilter = viewModel.currentFilter,
@@ -64,8 +74,6 @@ fun CharactersScreen(
                         }
                     )
                 }
-
-                // Lista de personajes
                 item {
                     CharacterListUI(characters) { characterId ->
                         viewModel.onCharacterSelected(characterId)

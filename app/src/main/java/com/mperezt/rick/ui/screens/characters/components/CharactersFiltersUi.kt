@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
@@ -20,7 +21,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -35,14 +35,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import com.mperezt.rick.R
 import com.mperezt.rick.domain.models.CharacterFilter
 import com.mperezt.rick.domain.models.Gender
 import com.mperezt.rick.domain.models.Status
 import com.mperezt.rick.ui.components.GenericDropdown
 import com.mperezt.rick.ui.theme.Elevation
+import com.mperezt.rick.ui.theme.FontSize
 import com.mperezt.rick.ui.theme.Padding
+import com.mperezt.rick.ui.theme.Space
 
 @Composable
 fun CharactersFiltersUi(
@@ -65,15 +66,15 @@ fun CharactersFiltersUi(
         )
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(Padding.Base)
+                .wrapContentWidth()
+                .padding(Padding.Base, Padding.None,Padding.None, Padding.Base)
                 .clickable { showFilters = !showFilters },
             elevation = CardDefaults.cardElevation(Elevation.Small)
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(Padding.Base),
+                    .wrapContentWidth()
+                    .padding(Padding.Small),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -122,21 +123,15 @@ private fun SearchBar(
         value = query,
         onValueChange = onQueryChange,
         modifier = Modifier
-            .fillMaxWidth()
-            .padding(Padding.Base),
+            .fillMaxWidth(),
         placeholder = { Text(stringResource(R.string.characters_search_placeholder)) },
-        singleLine = true,
+            singleLine = true,
             colors = TextFieldDefaults.colors(
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),
         leadingIcon = {
             Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
-        },
-        trailingIcon = {
-            IconButton(onClick = onToggleFilters) {
-                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Filtros")
-            }
         },
         keyboardActions = KeyboardActions(
             onDone = { onSearch() }
@@ -155,23 +150,24 @@ private fun FiltersPanel(
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = Padding.Base)
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(horizontal = Padding.Base)
                 .fillMaxWidth()
         ) {
-            Text(text = "Filtros", style = MaterialTheme.typography.titleMedium)
+            Text(text = "Filtros", style = MaterialTheme.typography.titleMedium,
+               fontSize = FontSize.Large , modifier = Modifier.padding(Padding.None, Padding.SmallMedium))
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(Space.Base))
 
             StatusDropdown(
                 selectedStatus = filter.status,
                 onStatusSelected = { onFilterChange(filter.copy(status = it)) }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Space.Small))
 
             FilterTextField(
                 label = "Especie",
@@ -179,7 +175,7 @@ private fun FiltersPanel(
                 onValueChange = { onFilterChange(filter.copy(species = it.ifEmpty { null })) }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Space.Small))
 
             FilterTextField(
                 label = "Tipo",
@@ -187,14 +183,14 @@ private fun FiltersPanel(
                 onValueChange = { onFilterChange(filter.copy(type = it.ifEmpty { null })) }
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(Space.Small))
 
             GenderDropdown(
                 selectedGender = filter.gender,
                 onGenderSelected = { onFilterChange(filter.copy(gender = it)) }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(Space.Base))
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -202,11 +198,11 @@ private fun FiltersPanel(
             ) {
                 TextButton(onClick = onClear) {
                     Icon(Icons.Default.Clear, contentDescription = "Limpiar")
-                    Spacer(modifier = Modifier.width(4.dp))
+                    Spacer(modifier = Modifier.width(Space.Small))
                     Text("Limpiar")
                 }
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(Space.Small))
 
                 Button(onClick = onApply) {
                     Text("Aplicar")
