@@ -70,8 +70,11 @@ class CharactersViewModel @Inject constructor(
                     error = null
                 )
 
-                isLastPage = characterResponseUi.results.isEmpty()
-                currentPage++
+                isLastPage = page >= characterResponseUi.info.pages || characterResponseUi.results.isEmpty()
+
+                if (!isLastPage) {
+                    currentPage++
+                }
 
                 _state.value.characters?.let {
                     viewModelScope.launch {

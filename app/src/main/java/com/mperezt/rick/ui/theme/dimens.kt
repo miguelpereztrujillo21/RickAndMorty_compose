@@ -51,6 +51,7 @@ object IconSize {
     val ExtraLargePlus = 56.dp
     val ExtraExtraLarge = 64.dp
     val Giant = 72.dp
+    val Logo =100.dp
 }
 
 object Space {
