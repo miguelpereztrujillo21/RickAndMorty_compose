@@ -33,7 +33,7 @@ fun CharactersScreen(
                     Toast.makeText(context, "Error al cargar los personajes", Toast.LENGTH_SHORT).show()
                 }
                 is CharactersEvent.OnCharactesLoaded -> {
-                    // Opcional: manejar evento de carga completada
+
                 }
             }
         }

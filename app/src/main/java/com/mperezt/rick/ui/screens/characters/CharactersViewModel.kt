@@ -21,7 +21,6 @@ class CharactersViewModel @Inject constructor(
     var isLastPage = false
     private var currentPage = 1
 
-    // Estado del filtro actual
     var currentFilter by mutableStateOf(CharacterFilter())
         private set
 
@@ -64,9 +63,9 @@ class CharactersViewModel @Inject constructor(
             success = { response ->
                 val characterResponseUi = response.toUi()
                 val updatedCharacters = (_state.value.characters?.results ?: emptyList()) + characterResponseUi.results
-
+                isLoading = false
                 _state.value = _state.value.copy(
-                    isLoading = false,
+                    isLoading = isLoading,
                     characters = characterResponseUi.copy(results = updatedCharacters),
                     error = null
                 )
@@ -81,6 +80,7 @@ class CharactersViewModel @Inject constructor(
                 }
             },
             error = { e ->
+                isLoading = false
                 _state.value = _state.value.copy(
                     isLoading = false,
                     error = e.message
