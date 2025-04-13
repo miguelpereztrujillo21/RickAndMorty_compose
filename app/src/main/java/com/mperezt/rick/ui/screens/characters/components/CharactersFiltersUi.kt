@@ -3,7 +3,6 @@ package com.mperezt.rick.ui.screens.characters.components
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -19,8 +18,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.DropdownMenu
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -247,46 +244,4 @@ fun GenderDropdown(
         onOptionSelected = onGenderSelected,
         optionLabel = { it?.name ?: "Todos" }
     )
-}
-@Composable
-private fun FilterDropdown(
-    selectedGender: Gender?,
-    onGenderSelected: (Gender?) -> Unit
-) {
-    var expanded by remember { mutableStateOf(false) }
-    val genderOptions = listOf(null) + Gender.values().toList()
-
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = "Género", style = MaterialTheme.typography.bodyMedium)
-        Spacer(modifier = Modifier.height(4.dp))
-        Box {
-            OutlinedTextField(
-                value = selectedGender?.name ?: "Todos",
-                onValueChange = { },
-                readOnly = true,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = true },
-                trailingIcon = {
-                    Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Expandir")
-                }
-            )
-
-            DropdownMenu(
-                expanded = expanded,
-                onDismissRequest = { expanded = false },
-                modifier = Modifier.fillMaxWidth(0.9f)
-            ) {
-                genderOptions.forEach { gender ->
-                    DropdownMenuItem(
-                        text = { Text(gender?.name ?: "Todos") },
-                        onClick = {
-                            onGenderSelected(gender)
-                            expanded = false
-                        }
-                    )
-                }
-            }
-        }
-    }
 }
