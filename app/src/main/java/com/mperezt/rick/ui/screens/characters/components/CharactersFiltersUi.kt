@@ -1,38 +1,102 @@
 package com.mperezt.rick.ui.screens.characters.components
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-
-
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import com.mperezt.rick.domain.models.CharacterFilter
+import com.mperezt.rick.domain.models.Gender
+import com.mperezt.rick.domain.models.Status
+import com.mperezt.rick.ui.components.GenericDropdown
+import com.mperezt.rick.ui.theme.Elevation
+import com.mperezt.rick.ui.theme.Padding
 
 @Composable
 fun CharactersFiltersUi(
-/*    initialFilters: CharacterFilters = CharacterFilters(),
-    onApplyFilters: (CharacterFilters) -> Unit*/
-) {/*{
+    initialFilter: CharacterFilter = CharacterFilter(),
+    onApplyFilter: (CharacterFilter) -> Unit
+) {
     var showFilters by remember { mutableStateOf(false) }
-    var filters by remember { mutableStateOf(initialFilters) }
+    var filter by remember { mutableStateOf(initialFilter) }
+    var searchQuery by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        // Barra de búsqueda con botón de filtro
         SearchBar(
-            query = filters.name,
-            onQueryChange = { filters = filters.copy(name = it) },
-            onSearch = { onApplyFilters(filters) },
+            query = searchQuery,
+            onQueryChange = { searchQuery = it },
+            onSearch = {
+                // Lógica para manejar la búsqueda
+                onApplyFilter(filter.copy(name = searchQuery.ifEmpty { null }))
+            },
             onToggleFilters = { showFilters = !showFilters }
         )
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(Padding.Base)
+                .clickable { showFilters = !showFilters },
+            elevation = CardDefaults.cardElevation(Elevation.Small)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(Padding.Base),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = if (showFilters) "Ocultar filtros" else "Mostrar filtros",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Icon(
+                    imageVector = if (showFilters) Icons.Default.KeyboardArrowUp else Icons.Default.ArrowDropDown,
+                    contentDescription = null
+                )
+            }
+        }
 
         // Panel de filtros expandible
         AnimatedVisibility(visible = showFilters) {
             FiltersPanel(
-                filters = filters,
-                onFiltersChange = { filters = it },
+                filter = filter,
+                onFilterChange = { filter = it },
                 onApply = {
-                    onApplyFilters(filters)
+                    onApplyFilter(filter)
                     showFilters = false
                 },
                 onClear = {
-                    filters = CharacterFilters()
-                    onApplyFilters(CharacterFilters())
+                    filter = CharacterFilter()
+                    onApplyFilter(CharacterFilter())
                 }
             )
         }
@@ -52,21 +116,15 @@ private fun SearchBar(
         onValueChange = onQueryChange,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(Padding.Base),
         placeholder = { Text("Buscar personajes...") },
         singleLine = true,
         leadingIcon = {
-            Icon(
-                imageVector = Icons.Default.Search,
-                contentDescription = "Buscar"
-            )
+            Icon(imageVector = Icons.Default.Search, contentDescription = "Buscar")
         },
         trailingIcon = {
             IconButton(onClick = onToggleFilters) {
-                Icon(
-                    imageVector = Icons.Default.FilterList,
-                    contentDescription = "Filtros"
-                )
+                Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Filtros")
             }
         },
         keyboardActions = androidx.compose.foundation.text.KeyboardActions(
@@ -77,8 +135,8 @@ private fun SearchBar(
 
 @Composable
 private fun FiltersPanel(
-    filters: CharacterFilters,
-    onFiltersChange: (CharacterFilters) -> Unit,
+    filter: CharacterFilter,
+    onFilterChange: (CharacterFilter) -> Unit,
     onApply: () -> Unit,
     onClear: () -> Unit
 ) {
@@ -92,52 +150,40 @@ private fun FiltersPanel(
                 .padding(16.dp)
                 .fillMaxWidth()
         ) {
-            Text(
-                text = "Filtros",
-                style = MaterialTheme.typography.titleMedium
-            )
+            Text(text = "Filtros", style = MaterialTheme.typography.titleMedium)
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Status filter (dropdown)
-            FilterDropdown(
-                label = "Estado",
-                options = listOf("", "alive", "dead", "unknown"),
-                selectedOption = filters.status,
-                onOptionSelected = { onFiltersChange(filters.copy(status = it)) }
+            StatusDropdown(
+                selectedStatus = filter.status,
+                onStatusSelected = { onFilterChange(filter.copy(status = it)) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Species filter (text field)
             FilterTextField(
                 label = "Especie",
-                value = filters.species,
-                onValueChange = { onFiltersChange(filters.copy(species = it)) }
+                value = filter.species ?: "",
+                onValueChange = { onFilterChange(filter.copy(species = it.ifEmpty { null })) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Type filter (text field)
             FilterTextField(
                 label = "Tipo",
-                value = filters.type,
-                onValueChange = { onFiltersChange(filters.copy(type = it)) }
+                value = filter.type ?: "",
+                onValueChange = { onFilterChange(filter.copy(type = it.ifEmpty { null })) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Gender filter (dropdown)
-            FilterDropdown(
-                label = "Género",
-                options = listOf("", "female", "male", "genderless", "unknown"),
-                selectedOption = filters.gender,
-                onOptionSelected = { onFiltersChange(filters.copy(gender = it)) }
+            GenderDropdown(
+                selectedGender = filter.gender,
+                onGenderSelected = { onFilterChange(filter.copy(gender = it)) }
             )
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Action buttons
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.End
@@ -174,30 +220,55 @@ private fun FilterTextField(
 }
 
 @Composable
+private fun StatusDropdown(
+    selectedStatus: Status?,
+    onStatusSelected: (Status?) -> Unit
+) {
+    val statusOptions = listOf(null) + Status.values().toList()
+    GenericDropdown(
+        label = "Estado",
+        options = statusOptions,
+        selectedOption = selectedStatus,
+        onOptionSelected = onStatusSelected,
+        optionLabel = { it?.name ?: "Todos" }
+    )
+}
+
+@Composable
+fun GenderDropdown(
+    selectedGender: Gender?,
+    onGenderSelected: (Gender?) -> Unit
+) {
+    val genderOptions = listOf(null) + Gender.entries
+    GenericDropdown(
+        label = "Género",
+        options = genderOptions,
+        selectedOption = selectedGender,
+        onOptionSelected = onGenderSelected,
+        optionLabel = { it?.name ?: "Todos" }
+    )
+}
+@Composable
 private fun FilterDropdown(
-    label: String,
-    options: List<String>,
-    selectedOption: String,
-    onOptionSelected: (String) -> Unit
+    selectedGender: Gender?,
+    onGenderSelected: (Gender?) -> Unit
 ) {
     var expanded by remember { mutableStateOf(false) }
+    val genderOptions = listOf(null) + Gender.values().toList()
 
     Column(modifier = Modifier.fillMaxWidth()) {
-        Text(text = label, style = MaterialTheme.typography.bodyMedium)
+        Text(text = "Género", style = MaterialTheme.typography.bodyMedium)
         Spacer(modifier = Modifier.height(4.dp))
         Box {
             OutlinedTextField(
-                value = if (selectedOption.isEmpty()) "Todos" else selectedOption,
+                value = selectedGender?.name ?: "Todos",
                 onValueChange = { },
                 readOnly = true,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickable { expanded = true },
                 trailingIcon = {
-                    Icon(
-                        imageVector = Icons.Default.FilterList,
-                        contentDescription = "Expandir"
-                    )
+                    Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "Expandir")
                 }
             )
 
@@ -206,18 +277,16 @@ private fun FilterDropdown(
                 onDismissRequest = { expanded = false },
                 modifier = Modifier.fillMaxWidth(0.9f)
             ) {
-                options.forEach { option ->
+                genderOptions.forEach { gender ->
                     DropdownMenuItem(
-                        text = {
-                            Text(if (option.isEmpty()) "Todos" else option)
-                        },
+                        text = { Text(gender?.name ?: "Todos") },
                         onClick = {
-                            onOptionSelected(option)
+                            onGenderSelected(gender)
                             expanded = false
                         }
                     )
                 }
             }
         }
-    }*/
+    }
 }

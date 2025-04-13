@@ -71,3 +71,23 @@ object Space {
     val Massive = 64.dp
 }
 
+object Elevation {
+    val None = 0.dp
+    val ExtraExtraSmall = 1.dp
+    val ExtraSmall = 2.dp
+    val Small = 4.dp
+    val SmallMedium = 6.dp
+    val Medium = 8.dp
+    val MediumPlus = 10.dp
+    val Base = 12.dp
+    val BasePlus = 14.dp
+    val MediumLarge = 16.dp
+    val Large = 20.dp
+    val LargePlus = 24.dp
+    val ExtraLarge = 28.dp
+    val ExtraLargePlus = 32.dp
+    val ExtraExtraLarge = 36.dp
+    val Huge = 40.dp
+    val Massive = 48.dp
+}
+
