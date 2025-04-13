@@ -26,7 +26,5 @@ class MainActivity : ComponentActivity() {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    RickAndMorty_composeTheme {
-        CharactersScreen()
-    }
+
 }

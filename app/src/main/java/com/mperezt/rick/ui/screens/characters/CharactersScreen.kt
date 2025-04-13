@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mperezt.rick.R
 import com.mperezt.rick.ui.screens.characters.components.CharacterListUI
 import com.mperezt.rick.ui.screens.characters.components.CharactersFiltersUi
 import com.mperezt.rick.ui.screens.shared.ErrorScreen
@@ -30,7 +31,7 @@ fun CharactersScreen(
                     onNavigateToDetail(event.characterId)
                 }
                 is CharactersEvent.OnError -> {
-                    Toast.makeText(context, "Error al cargar los personajes", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, R.string.character_carge_error, Toast.LENGTH_SHORT).show()
                 }
                 is CharactersEvent.OnCharactesLoaded -> {
 

@@ -2,4 +2,8 @@
     <string name="app_name">RickAndMorty_compose</string>
     //Characters Screen
     <string name="characters_title">Characters</string>
+    <string name="character_carge_error">Error al cargar los personajes</string>
+    <string name="characters_show_filters">Mostrar filtros</string>
+    <string name="characters_hide_filters">Ocultar filtros</string>
+    <string name="characters_search_placeholder">Buscar personajes...</string>"
 </resources>
