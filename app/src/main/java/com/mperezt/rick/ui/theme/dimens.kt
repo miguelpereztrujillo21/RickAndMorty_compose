@@ -51,6 +51,8 @@ object IconSize {
     val ExtraLargePlus = 56.dp
     val ExtraExtraLarge = 64.dp
     val Giant = 72.dp
+    val Huge = 80.dp
+    val Massive = 96.dp
     val Logo =100.dp
 }
 
@@ -107,4 +109,26 @@ object FontSize {
     val Jumbo = 40.sp
     val Massive = 48.sp
 }
+object Stroke {
+    val None = 0.dp
+    val Hairline = 0.5.dp
+    val ExtraExtraSmall = 1.dp
+    val ExtraSmall = 1.5.dp
+    val Small = 2.dp
+    val SmallMedium = 2.5.dp
+    val Medium = 3.dp
+    val MediumPlus = 3.5.dp
+    val Base = 4.dp
+    val BasePlus = 5.dp
+    val MediumLarge = 6.dp
+    val Large = 8.dp
+    val LargePlus = 10.dp
+    val ExtraLarge = 12.dp
+    val ExtraLargePlus = 14.dp
+    val ExtraExtraLarge = 16.dp
+    val Huge = 20.dp
+    val Massive = 24.dp
+}
+
+
 

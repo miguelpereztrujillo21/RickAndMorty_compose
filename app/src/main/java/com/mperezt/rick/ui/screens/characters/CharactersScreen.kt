@@ -30,16 +30,16 @@ import com.mperezt.rick.ui.theme.Padding
 @Composable
 fun CharactersScreen(
     viewModel: CharactersViewModel = hiltViewModel(),
-    onNavigateToDetail: (Int) -> Unit = {}
+    onCharactersClick: (Int) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
-        viewModel.event.collect { event ->
+        viewModel.events.collect { event ->
             when (event) {
                 is CharactersEvent.NavigateToDetail -> {
-                    onNavigateToDetail(event.characterId)
+                    onCharactersClick(event.characterId)
                 }
                 is CharactersEvent.OnError -> {
                     Toast.makeText(context, R.string.character_carge_error, Toast.LENGTH_SHORT)
@@ -76,7 +76,7 @@ fun CharactersScreen(
                             .fillParentMaxWidth()
                             .padding(Padding.Small)
                             .height(IconSize.Logo),
-                        alignment = Alignment.Center// Centra la imagen horizontalmente
+                        alignment = Alignment.Center
                     )
                 }
                 item {

@@ -1,5 +1,6 @@
 package com.mperezt.rick.domain.repository
 
+import com.mperezt.rick.domain.models.Character
 import com.mperezt.rick.domain.models.CharacterResponse
 
 interface ICharactersRepository {
@@ -11,4 +12,6 @@ interface ICharactersRepository {
         type: String? = null,
         gender: String? = null
     ): CharacterResponse
+
+    suspend fun getCharacterById(id: Int): Character
 }

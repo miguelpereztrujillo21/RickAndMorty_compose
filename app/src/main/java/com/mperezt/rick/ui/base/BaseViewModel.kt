@@ -14,20 +14,16 @@ abstract class BaseViewModel<STATE : Any, EVENT> (
     initialState: STATE
 ) : ViewModel() {
 
-    // Estado persistente, se usa para representar la UI (loading, data, error)
     protected val _state = MutableStateFlow(initialState)
     val state: StateFlow<STATE> = _state
 
-    // Eventos transitorios (navegación, toasts, etc.)
-    private val _event = MutableSharedFlow<EVENT>()
-    val event: SharedFlow<EVENT> = _event
+    private val _events = MutableSharedFlow<EVENT>()
+    val events: SharedFlow<EVENT> = _events
 
-    // Lógica para emitir eventos transitorios
     protected suspend fun emitEvent(event: EVENT) {
-        _event.emit(event)
+        _events.emit(event)
     }
 
-    // Lógica para ejecutar casos de uso y actualizar el estado
     fun <T> executeUseCase(
         useCase: suspend () -> T,
         success: (T) -> Unit,

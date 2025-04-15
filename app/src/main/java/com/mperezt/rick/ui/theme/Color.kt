@@ -29,3 +29,7 @@ val Green = Color(0xFF298267)
 // Red colors
 val LightRed = Color(0xFFFFE2E5)
 val Red = Color(0xFFED3241)
+
+// Blue colors
+val LightBlue = Color(0xFFc6f1fb)
+val BlueLight = Color(0xFF5edaf5)

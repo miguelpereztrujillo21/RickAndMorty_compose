@@ -59,10 +59,8 @@ fun CharactersFiltersUi(
             query = searchQuery,
             onQueryChange = { searchQuery = it },
             onSearch = {
-                // Lógica para manejar la búsqueda
                 onApplyFilter(filter.copy(name = searchQuery.ifEmpty { null }))
-            },
-            onToggleFilters = { showFilters = !showFilters }
+            }
         )
         Card(
             modifier = Modifier
@@ -88,7 +86,6 @@ fun CharactersFiltersUi(
             }
         }
 
-        // Panel de filtros expandible
         AnimatedVisibility(visible = showFilters) {
             FiltersPanel(
                 filter = filter,
@@ -110,8 +107,7 @@ fun CharactersFiltersUi(
 private fun SearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
-    onSearch: () -> Unit,
-    onToggleFilters: () -> Unit
+    onSearch: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -170,7 +166,7 @@ private fun FiltersPanel(
             Spacer(modifier = Modifier.height(Space.Small))
 
             FilterTextField(
-                label = "Especie",
+                label = stringResource(R.string.characters_filter_species),
                 value = filter.species ?: "",
                 onValueChange = { onFilterChange(filter.copy(species = it.ifEmpty { null })) }
             )
@@ -178,7 +174,7 @@ private fun FiltersPanel(
             Spacer(modifier = Modifier.height(Space.Small))
 
             FilterTextField(
-                label = "Tipo",
+                label = stringResource(R.string.characters_filter_type),
                 value = filter.type ?: "",
                 onValueChange = { onFilterChange(filter.copy(type = it.ifEmpty { null })) }
             )

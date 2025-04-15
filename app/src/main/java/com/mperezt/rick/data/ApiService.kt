@@ -1,7 +1,9 @@
 package com.mperezt.rick.data
 
+import com.mperezt.rick.data.models.CharacterDto
 import com.mperezt.rick.data.models.CharacterResponseDto
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
@@ -14,4 +16,7 @@ interface ApiService {
         @Query("type") type: String? = null,
         @Query("gender") gender: String? = null
     ): CharacterResponseDto
+
+    @GET("character/{id}")
+    suspend fun getCharacterById(@Path("id") id: Int): CharacterDto
 }
