@@ -8,4 +8,17 @@
     <string name="characters_search_placeholder">Buscar personajes...</string>"
     <string name="characters_filter_species">Especies</string>
     <string name="characters_filter_type">Tipo</string>
+    <string name="characters_filter_gender">Género</string>
+    <string name="characters_filter_status">Estado</string>
+    <string name="characters_filter_location">Ubicación</string>
+    <string name="characters_filter_origin">Origen</string>
+    <string name="characters_filter_episodes">Episodios</string>
+    <string name="characters_species">Especies</string>
+    <string name="characters_type">Tipo</string>
+    <string name="characters_gender">Género</string>
+    <string name="characters_status">Estado</string>
+    <string name="characters_location">Ubicación</string>
+    <string name="characters_origin">Origen</string>
+    <string name="characters_episodes">Episodios</string>
+
 </resources>

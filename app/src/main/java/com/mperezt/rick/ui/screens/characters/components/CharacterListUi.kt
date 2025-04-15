@@ -27,6 +27,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.mperezt.rick.ui.mappers.StatusColorMapper
 import com.mperezt.rick.ui.models.CharacterUi
 import com.mperezt.rick.ui.theme.BlueLight
 import com.mperezt.rick.ui.theme.Elevation
@@ -66,11 +67,7 @@ fun CharacterListItem(character: CharacterUi, onClick: () -> Unit) {
                     modifier = Modifier
                         .size(16.dp)
                         .background(
-                            when (character.status) {
-                                "Alive" -> Color.Green
-                                "Dead" -> Color.Red
-                                else -> Color.Gray
-                            },
+                            StatusColorMapper.mapToColor(character.status),
                             CircleShape
                         )
                         .border(1.dp, Color.White, CircleShape)
@@ -97,11 +94,7 @@ fun CharacterListItem(character: CharacterUi, onClick: () -> Unit) {
                     Text(
                         text = character.status,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = when (character.status) {
-                            "Alive" -> Color.Green.copy(alpha = 0.8f)
-                            "Dead" -> Color.Red.copy(alpha = 0.8f)
-                            else -> Color.Gray
-                        }
+                        color = StatusColorMapper.mapToColor(character.status)
                     )
                     Text(text = " • ")
                     Text(
