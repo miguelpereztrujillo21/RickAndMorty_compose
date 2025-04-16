@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.mperezt.rick.domain.models.CharacterFilter
-import com.mperezt.rick.domain.repository.ICharactersRepository
+import com.mperezt.rick.domain.usecases.GetCharactersUseCase
 import com.mperezt.rick.ui.base.BaseViewModel
 import com.mperezt.rick.ui.mappers.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
-    private val charactersRepository: ICharactersRepository
+    private val getCharactersUseCase: GetCharactersUseCase
 ) : BaseViewModel<CharactersState, CharactersEvent>(CharactersState()) {
 
     private var isLoading = false
@@ -51,7 +51,7 @@ class CharactersViewModel @Inject constructor(
 
         executeUseCase(
             useCase = {
-                charactersRepository.getCharacters(
+                getCharactersUseCase(
                     page = page,
                     name = currentFilter.name,
                     status = currentFilter.status?.value,

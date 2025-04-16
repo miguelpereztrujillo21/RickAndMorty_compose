@@ -1,9 +1,27 @@
 package com.mperezt.rick.domain.usecases
 
-import com.mperezt.rick.data.repository.CharactersRepository
 import com.mperezt.rick.domain.models.CharacterResponse
-import jakarta.inject.Inject
+import com.mperezt.rick.domain.repository.ICharactersRepository
+import javax.inject.Inject
 
-class GetCharactersUseCase @Inject constructor(private val repository: CharactersRepository){
-    suspend operator fun invoke(page: Int): CharacterResponse = repository.getCharacters(page)
+class GetCharactersUseCase @Inject constructor(
+    private val repository: ICharactersRepository
+) {
+    suspend operator fun invoke(
+        page: Int,
+        name: String? = null,
+        status: String? = null,
+        species: String? = null,
+        type: String? = null,
+        gender: String? = null
+    ): CharacterResponse {
+        return repository.getCharacters(
+            page = page,
+            name = name,
+            status = status,
+            species = species,
+            type = type,
+            gender = gender
+        )
+    }
 }

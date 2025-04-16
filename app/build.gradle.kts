@@ -59,10 +59,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-  //  implementation(libs.androidx.navigation.safe.args.generator)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.androidx.testing)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
@@ -81,4 +78,21 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     //Coil
     implementation(libs.coil.compose)
+
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+    testImplementation(libs.junit)
+    // Tests unitarios mejorados
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+
+    // Tests de UI
+    androidTestImplementation(libs.androidx.compose.ui.test)
+
+    // Para tests de integración
+    testImplementation(libs.okhttp.mockwebserver)
+
+    // Para captura de screenshots
+    androidTestImplementation(libs.shot)
+    androidTestImplementation(libs.androidx.testing)
 }
