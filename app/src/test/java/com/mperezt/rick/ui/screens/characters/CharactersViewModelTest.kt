@@ -111,6 +111,71 @@ class CharactersViewModelTest {
 
         assertEquals(nuevoFiltro, viewModel.currentFilter)
     }
+    @Test
+    fun `calling loadCharacters again should load next page and append characters`() = runTest {
+        // Given - ViewModel initialized with first page loaded
+        viewModel = CharactersViewModel(GetCharactersUseCase(repository))
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        val initialCharacters = viewModel.state.value.characters
+        assertNotNull(viewModel.state.value.characters)
+        assertEquals(2, viewModel.state.value.characters?.results?.size)
+
+        // When - Configure response for second page
+        val secondPageCharacters = listOf(
+            Character(
+                id = 3,
+                name = "Summer Smith",
+                status = Status.Alive.value,
+                species = "Human",
+                type = "",
+                gender = Gender.Female.value,
+                origin = Origin("Earth", ""),
+                location = Location("Earth", ""),
+                image = "https://example.com/summer.jpg",
+                created = "2023-01-01",
+                episode = listOf("S01E01", "S01E02"),
+                url = "https://example.com/summer"
+            ),
+            Character(
+                id = 4,
+                name = "Beth Smith",
+                status = Status.Alive.value,
+                species = "Human",
+                type = "",
+                gender = Gender.Female.value,
+                origin = Origin("Earth", ""),
+                location = Location("Earth", ""),
+                image = "https://example.com/beth.jpg",
+                episode = listOf("S01E01", "S01E02"),
+                url = "https://example.com/beth",
+                created = "2023-01-01"
+            )
+        )
+
+        // Configure mock repository to return second page characters
+        coEvery {
+            repository.getCharacters(2, any(), any(), any(), any(), any())
+        } returns CharacterResponse(
+            info = Info(count = 4, pages = 3, next = null, prev = "url"),
+            results = secondPageCharacters
+        )
+
+        // call loadCharacters again to load next page
+        viewModel.loadCharacters()
+        testDispatcher.scheduler.advanceUntilIdle()
+
+        // Then - Verify next page was loaded
+        coVerify(exactly = 1) {
+            repository.getCharacters(2, null, null, null, null, null)
+        }
+
+        val allCharacters = viewModel.state.value.characters
+        assertNotNull(allCharacters)
+        assertEquals(4, allCharacters?.results?.size)
+        assertEquals(initialCharacters?.results?.get(0)?.id, allCharacters?.results?.get(0)?.id)
+        assertEquals(3, allCharacters?.results?.get(2)?.id)
+    }
 
     @Test
     fun `onCharacterSelected debe emitir evento de navegación`() = runTest {
@@ -131,7 +196,7 @@ class CharactersViewModelTest {
     private fun getMockCharacterResponse() = CharacterResponse(
         info = Info(
             count = 2,
-            pages = 1,
+            pages = 3,
             next = null,
             prev = null
         ),
@@ -166,4 +231,5 @@ class CharactersViewModelTest {
             )
         )
     )
+
 }
