@@ -19,13 +19,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Place
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -38,8 +36,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -60,19 +60,16 @@ fun CharacterDetailContent(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        // Contenido principal con scroll
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
         ) {
-            // Portada con gradiente
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp)
             ) {
-                // Imagen de portada
                 AsyncImage(
                     model = character.image,
                     contentDescription = null,
@@ -226,7 +223,7 @@ fun CharacterDetailContent(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     StatItem(
-                        icon = Icons.Filled.DateRange,
+                        icon = ImageVector.vectorResource(R.drawable.ic_eye),
                         value = "Apariciones",
                         count = character.episode.size.toString()
                     )
@@ -239,7 +236,7 @@ fun CharacterDetailContent(
                     )
 
                     StatItem(
-                        icon = Icons.Default.Star,
+                        icon = ImageVector.vectorResource(R.drawable.ic_time),
                         value = "Creado",
                         count = "Hace " + character.created.substring(0, 10)
                     )
@@ -251,7 +248,7 @@ fun CharacterDetailContent(
 
 @Composable
 private fun CharacterInfoItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     title: String,
     value: String
 ) {
@@ -288,7 +285,7 @@ private fun CharacterInfoItem(
 
 @Composable
 private fun StatItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    icon: ImageVector,
     value: String,
     count: String
 ) {

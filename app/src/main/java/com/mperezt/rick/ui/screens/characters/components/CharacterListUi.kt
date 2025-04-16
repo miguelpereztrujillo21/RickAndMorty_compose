@@ -50,7 +50,6 @@ fun CharacterListItem(character: CharacterUi, onClick: () -> Unit) {
             modifier = Modifier.padding(Padding.Medium),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Imagen con indicador de estado
             Box(contentAlignment = Alignment.BottomEnd) {
                 AsyncImage(
                     model = character.image,
@@ -61,8 +60,6 @@ fun CharacterListItem(character: CharacterUi, onClick: () -> Unit) {
                         .border(Stroke.Small,BlueLight, CircleShape),
                     contentScale = ContentScale.Crop
                 )
-
-                // Indicador de estado (vivo, muerto, etc.)
                 Box(
                     modifier = Modifier
                         .size(16.dp)
@@ -76,7 +73,6 @@ fun CharacterListItem(character: CharacterUi, onClick: () -> Unit) {
 
             Spacer(modifier = Modifier.width(Padding.Base))
 
-            // Información del personaje
             Column(
                 modifier = Modifier.weight(1f)
             ) {
