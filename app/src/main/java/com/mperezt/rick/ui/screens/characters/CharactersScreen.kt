@@ -75,7 +75,7 @@ fun CharactersScreen(
                         character = character,
                         onClick = {  onCharactersClick(character.id) }
                     )
-                    if (character == characters.lastOrNull() && !state.isLoading && !viewModel.isLastPage) {
+                    if (character == characters.lastOrNull() && !state.isLoading && !state.isLastPage) {
                         LaunchedEffect(key1 = character.id) {
                             viewModel.loadCharacters()
                         }

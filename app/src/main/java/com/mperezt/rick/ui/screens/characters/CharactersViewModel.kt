@@ -12,8 +12,7 @@ class CharactersViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase
 ) : BaseViewModel<CharactersState>(CharactersState()) {
 
-    private var isLoading = false
-    var isLastPage = false
+
     private var currentPage = 1
 
     init {
@@ -21,7 +20,7 @@ class CharactersViewModel @Inject constructor(
     }
 
     fun applyFilter(filter: CharacterFilter) {
-        _state.value.filter = filter
+        _state.value = _state.value.copy(filter = filter)
         resetAndReloadCharacters()
     }
 
@@ -29,16 +28,15 @@ class CharactersViewModel @Inject constructor(
         _state.value = _state.value.copy(
             characters = null,
             error = null,
-            isLoading = true
+            isLoading = true,
+            isLastPage = false
         )
-        isLastPage = false
         currentPage = 1
         loadCharacters()
     }
 
     fun loadCharacters(page: Int = currentPage) {
-        if (isLoading || isLastPage) return
-        isLoading = true
+        if (_state.value.isLastPage ) return
         _state.value = _state.value.copy(isLoading = true)
 
         executeUseCase(
@@ -55,22 +53,19 @@ class CharactersViewModel @Inject constructor(
             success = { response ->
                 val characterResponseUi = response.toUi()
                 val updatedCharacters = (_state.value.characters?.results ?: emptyList()) + characterResponseUi.results
-                isLoading = false
                 _state.value = _state.value.copy(
-                    isLoading = isLoading,
+                    isLoading = false,
                     characters = characterResponseUi.copy(results = updatedCharacters),
-                    error = null
+                    error = null,
+                    isLastPage = page >= characterResponseUi.info.pages || characterResponseUi.results.isEmpty()
                 )
 
-                isLastPage = page >= characterResponseUi.info.pages || characterResponseUi.results.isEmpty()
-
-                if (!isLastPage) {
+                if (!_state.value.isLastPage) {
                     currentPage++
                 }
 
             },
             error = { e ->
-                isLoading = false
                 _state.value = _state.value.copy(
                     isLoading = false,
                     error = e.message
