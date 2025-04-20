@@ -12,7 +12,6 @@ class CharactersViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase
 ) : BaseViewModel<CharactersState>(CharactersState()) {
 
-
     private var currentPage = 1
 
     init {

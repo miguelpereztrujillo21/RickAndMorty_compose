@@ -29,7 +29,7 @@ class CharacterDetailViewModel @Inject constructor(
         loadCharacter()
     }
 
-    private fun loadCharacter() {
+    fun loadCharacter() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
             try {

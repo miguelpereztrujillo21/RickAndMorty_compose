@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mperezt.rick.ui.components.ErrorMessage
+import com.mperezt.rick.ui.components.ErrorPopup
 import com.mperezt.rick.ui.screens.characters.components.CharacterDetailContent
 import com.mperezt.rick.ui.screens.detail.CharacterDetailViewModel
 
@@ -19,7 +20,6 @@ fun CharacterDetailScreen(
     viewModel: CharacterDetailViewModel = hiltViewModel()
 ) {
     val state by viewModel.state.collectAsState()
-
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -32,6 +32,12 @@ fun CharacterDetailScreen(
                 ErrorMessage(
                     error = state.error ?: "Error desconocido",
                     modifier = Modifier.align(Alignment.Center)
+                )
+                ErrorPopup(
+                    errorMessage = state.error,
+                    onRetry = { viewModel.loadCharacter() },
+                    onDismiss = { },
+                    closeApp = true
                 )
             }
             state.character != null -> {

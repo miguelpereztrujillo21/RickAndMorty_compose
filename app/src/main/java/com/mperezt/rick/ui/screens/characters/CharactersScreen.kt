@@ -18,9 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.mperezt.rick.R
+import com.mperezt.rick.ui.components.ErrorPopup
 import com.mperezt.rick.ui.screens.characters.components.CharacterListItem
 import com.mperezt.rick.ui.screens.characters.components.CharactersFiltersUi
-import com.mperezt.rick.ui.screens.shared.ErrorScreen
 import com.mperezt.rick.ui.screens.shared.LoadingScreen
 import com.mperezt.rick.ui.theme.IconSize
 import com.mperezt.rick.ui.theme.Padding
@@ -37,9 +37,10 @@ fun CharactersScreen(
             LoadingScreen()
         }
         state.error != null && state.characters == null -> {
-            ErrorScreen(
-                message = state.error.toString(),
-                onRetry = { viewModel.loadCharacters() }
+            ErrorPopup(
+                errorMessage = state.error, // Usa la sobrecarga que acepta String?
+                onRetry = { viewModel.loadCharacters() },
+                onDismiss = {}
             )
         }
         else -> {
