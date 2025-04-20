@@ -1,6 +1,5 @@
 package com.mperezt.rick.ui.screens.characters
 
-import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
@@ -16,7 +15,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.mperezt.rick.R
@@ -33,22 +31,6 @@ fun CharactersScreen(
     onCharactersClick: (Int) -> Unit = {}
 ) {
     val state by viewModel.state.collectAsState()
-    val context = LocalContext.current
-
-    LaunchedEffect(Unit) {
-        viewModel.events.collect { event ->
-            when (event) {
-                is CharactersEvent.NavigateToDetail -> {
-                    onCharactersClick(event.characterId)
-                }
-                is CharactersEvent.OnError -> {
-                    Toast.makeText(context, R.string.character_carge_error, Toast.LENGTH_SHORT)
-                        .show()
-                }
-                is CharactersEvent.OnCharactesLoaded -> {}
-            }
-        }
-    }
 
     when {
         state.isLoading && state.characters == null -> {
@@ -81,7 +63,7 @@ fun CharactersScreen(
                 }
                 item {
                     CharactersFiltersUi(
-                        initialFilter = viewModel.currentFilter,
+                        initialFilter = state.filter,
                         onApplyFilter = { filter ->
                             viewModel.applyFilter(filter)
                         }
@@ -91,7 +73,7 @@ fun CharactersScreen(
                 items(characters) { character ->
                     CharacterListItem(
                         character = character,
-                        onClick = { viewModel.onCharacterSelected(character.id) }
+                        onClick = {  onCharactersClick(character.id) }
                     )
                     if (character == characters.lastOrNull() && !state.isLoading && !viewModel.isLastPage) {
                         LaunchedEffect(key1 = character.id) {

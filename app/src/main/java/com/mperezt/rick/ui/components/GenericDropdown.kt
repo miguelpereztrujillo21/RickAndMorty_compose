@@ -30,7 +30,7 @@ fun <T> GenericDropdown(
     val selectedText = optionLabel(selectedOption)
 
     BoxWithConstraints {
-        val dropdownWidth = maxWidth // Calcula el ancho del contenedor
+        val dropdownWidth = maxWidth
 
         ExposedDropdownMenuBox(
             expanded = expanded,
@@ -50,7 +50,7 @@ fun <T> GenericDropdown(
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false },
-                modifier = Modifier.width(dropdownWidth) // Ajusta el ancho del menú
+                modifier = Modifier.width(dropdownWidth)
             ) {
                 options.forEach { option ->
                     DropdownMenuItem(

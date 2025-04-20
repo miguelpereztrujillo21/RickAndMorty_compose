@@ -17,15 +17,11 @@ data class CharacterDetailState(
     val error: String? = null
 )
 
-sealed class CharacterDetailEvent {
-    data object OnBack : CharacterDetailEvent()
-}
-
 @HiltViewModel
 class CharacterDetailViewModel @Inject constructor(
     private val getCharacterByIdUseCase: GetCharacterByIdUseCase,
     savedStateHandle: SavedStateHandle
-) : BaseViewModel<CharacterDetailState, CharacterDetailEvent>(CharacterDetailState()) {
+) : BaseViewModel<CharacterDetailState>(CharacterDetailState()) {
 
     private val characterId: Int = checkNotNull(savedStateHandle["characterId"])
 
@@ -53,12 +49,6 @@ class CharacterDetailViewModel @Inject constructor(
                     )
                 }
             }
-        }
-    }
-
-    fun onBackPressed() {
-        viewModelScope.launch {
-            emitEvent(CharacterDetailEvent.OnBack)
         }
     }
 }

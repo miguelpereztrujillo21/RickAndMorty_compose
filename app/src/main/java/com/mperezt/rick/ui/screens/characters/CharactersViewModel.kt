@@ -1,35 +1,27 @@
 package com.mperezt.rick.ui.screens.characters
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewModelScope
 import com.mperezt.rick.domain.models.CharacterFilter
 import com.mperezt.rick.domain.usecases.GetCharactersUseCase
 import com.mperezt.rick.ui.base.BaseViewModel
 import com.mperezt.rick.ui.mappers.toUi
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CharactersViewModel @Inject constructor(
     private val getCharactersUseCase: GetCharactersUseCase
-) : BaseViewModel<CharactersState, CharactersEvent>(CharactersState()) {
+) : BaseViewModel<CharactersState>(CharactersState()) {
 
     private var isLoading = false
     var isLastPage = false
     private var currentPage = 1
-
-    var currentFilter by mutableStateOf(CharacterFilter())
-        private set
 
     init {
         loadCharacters()
     }
 
     fun applyFilter(filter: CharacterFilter) {
-        currentFilter = filter
+        _state.value.filter = filter
         resetAndReloadCharacters()
     }
 
@@ -53,11 +45,11 @@ class CharactersViewModel @Inject constructor(
             useCase = {
                 getCharactersUseCase(
                     page = page,
-                    name = currentFilter.name,
-                    status = currentFilter.status?.value,
-                    species = currentFilter.species,
-                    type = currentFilter.type,
-                    gender = currentFilter.gender?.value
+                    name = _state.value.filter.name,
+                    status = _state.value.filter.status?.value,
+                    species = _state.value.filter.species,
+                    type = _state.value.filter.type,
+                    gender = _state.value.filter.gender?.value
                 )
             },
             success = { response ->
@@ -76,11 +68,6 @@ class CharactersViewModel @Inject constructor(
                     currentPage++
                 }
 
-                _state.value.characters?.let {
-                    viewModelScope.launch {
-                        emitEvent(CharactersEvent.OnCharactesLoaded(it))
-                    }
-                }
             },
             error = { e ->
                 isLoading = false
@@ -88,16 +75,7 @@ class CharactersViewModel @Inject constructor(
                     isLoading = false,
                     error = e.message
                 )
-                viewModelScope.launch {
-                    emitEvent(CharactersEvent.OnError)
-                }
             }
         )
-    }
-
-    fun onCharacterSelected(characterId: Int) {
-        viewModelScope.launch {
-            emitEvent(CharactersEvent.NavigateToDetail(characterId))
-        }
     }
 }

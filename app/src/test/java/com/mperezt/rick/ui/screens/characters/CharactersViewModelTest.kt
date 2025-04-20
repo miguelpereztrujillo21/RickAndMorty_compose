@@ -16,8 +16,6 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -109,7 +107,7 @@ class CharactersViewModelTest {
             repository.getCharacters(1, "Rick", Status.Alive.value, null, null, null)
         }
 
-        assertEquals(nuevoFiltro, viewModel.currentFilter)
+        assertEquals(nuevoFiltro, viewModel.state.value.filter)
     }
     @Test
     fun `calling loadCharacters again should load next page and append characters`() = runTest {
@@ -175,22 +173,6 @@ class CharactersViewModelTest {
         assertEquals(4, allCharacters?.results?.size)
         assertEquals(initialCharacters?.results?.get(0)?.id, allCharacters?.results?.get(0)?.id)
         assertEquals(3, allCharacters?.results?.get(2)?.id)
-    }
-
-    @Test
-    fun `onCharacterSelected debe emitir evento de navegación`() = runTest {
-        // Given
-        viewModel = CharactersViewModel(GetCharactersUseCase(repository))
-        val eventos = mutableListOf<CharactersEvent>()
-
-        // When
-        val job = launch { viewModel.events.toList(eventos) }
-        viewModel.onCharacterSelected(42)
-        testDispatcher.scheduler.advanceUntilIdle()
-
-        // Then
-        assertTrue(eventos.any { it is CharactersEvent.NavigateToDetail && it.characterId == 42 })
-        job.cancel()
     }
 
     private fun getMockCharacterResponse() = CharacterResponse(
