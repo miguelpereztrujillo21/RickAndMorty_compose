@@ -2,13 +2,13 @@ package com.mperezt.rick.ui.screens.characters
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.mperezt.rick.domain.models.Character
-import com.mperezt.rick.domain.models.CharacterFilter
+import com.mperezt.rick.ui.models.CharacterFilterUi
 import com.mperezt.rick.domain.models.CharacterResponse
-import com.mperezt.rick.domain.models.Gender
+import com.mperezt.rick.ui.models.GenderUi
 import com.mperezt.rick.domain.models.Info
 import com.mperezt.rick.domain.models.Location
 import com.mperezt.rick.domain.models.Origin
-import com.mperezt.rick.domain.models.Status
+import com.mperezt.rick.ui.models.StatusUi
 import com.mperezt.rick.domain.repository.ICharactersRepository
 import com.mperezt.rick.domain.usecases.GetCharactersUseCase
 import io.mockk.coEvery
@@ -90,7 +90,7 @@ class CharactersViewModelTest {
 
         assertFalse(viewModel.state.value.isLoading)
 
-        val nuevoFiltro = CharacterFilter(name = "Rick", status = Status.Alive)
+        val nuevoFiltro = CharacterFilterUi(name = "Rick", status = StatusUi.Alive)
 
         coVerify(exactly = 1) {
             repository.getCharacters(1, null, null, null, null, null)
@@ -104,7 +104,7 @@ class CharactersViewModelTest {
         testDispatcher.scheduler.advanceUntilIdle()
 
         coVerify(exactly = 1) {
-            repository.getCharacters(1, "Rick", Status.Alive.value, null, null, null)
+            repository.getCharacters(1, "Rick", StatusUi.Alive.value, null, null, null)
         }
 
         assertEquals(nuevoFiltro, viewModel.state.value.filter)
@@ -124,10 +124,10 @@ class CharactersViewModelTest {
             Character(
                 id = 3,
                 name = "Summer Smith",
-                status = Status.Alive.value,
+                status = StatusUi.Alive.value,
                 species = "Human",
                 type = "",
-                gender = Gender.Female.value,
+                gender = GenderUi.Female.value,
                 origin = Origin("Earth", ""),
                 location = Location("Earth", ""),
                 image = "https://example.com/summer.jpg",
@@ -138,10 +138,10 @@ class CharactersViewModelTest {
             Character(
                 id = 4,
                 name = "Beth Smith",
-                status = Status.Alive.value,
+                status = StatusUi.Alive.value,
                 species = "Human",
                 type = "",
-                gender = Gender.Female.value,
+                gender = GenderUi.Female.value,
                 origin = Origin("Earth", ""),
                 location = Location("Earth", ""),
                 image = "https://example.com/beth.jpg",
@@ -186,10 +186,10 @@ class CharactersViewModelTest {
             Character(
                 id = 1,
                 name = "Rick Sanchez",
-                status = Status.Alive.value,
+                status = StatusUi.Alive.value,
                 species = "Human",
                 type = "",
-                gender = Gender.Male.value,
+                gender = GenderUi.Male.value,
                 origin = Origin("Earth", ""),
                 location = Location("Earth", ""),
                 image = "https://example.com/rick.jpg",
@@ -200,10 +200,10 @@ class CharactersViewModelTest {
             Character(
                 id = 2,
                 name = "Morty Smith",
-                status = Status.Alive.value,
+                status = StatusUi.Alive.value,
                 species = "Human",
                 type = "",
-                gender = Gender.Male.value,
+                gender = GenderUi.Male.value,
                 origin = Origin("Earth", ""),
                 location = Location("Earth", ""),
                 image = "https://example.com/morty.jpg",

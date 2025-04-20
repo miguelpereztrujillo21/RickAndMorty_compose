@@ -1,6 +1,6 @@
 package com.mperezt.rick.ui.screens.characters
 
-import com.mperezt.rick.domain.models.CharacterFilter
+import com.mperezt.rick.ui.models.CharacterFilterUi
 import com.mperezt.rick.domain.usecases.GetCharactersUseCase
 import com.mperezt.rick.ui.base.BaseViewModel
 import com.mperezt.rick.ui.mappers.toUi
@@ -18,7 +18,7 @@ class CharactersViewModel @Inject constructor(
         loadCharacters()
     }
 
-    fun applyFilter(filter: CharacterFilter) {
+    fun applyFilter(filter: CharacterFilterUi) {
         _state.value = _state.value.copy(filter = filter)
         resetAndReloadCharacters()
     }

@@ -36,9 +36,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.mperezt.rick.R
-import com.mperezt.rick.domain.models.CharacterFilter
-import com.mperezt.rick.domain.models.Gender
-import com.mperezt.rick.domain.models.Status
+import com.mperezt.rick.ui.models.CharacterFilterUi
+import com.mperezt.rick.ui.models.GenderUi
+import com.mperezt.rick.ui.models.StatusUi
 import com.mperezt.rick.ui.components.GenericDropdown
 import com.mperezt.rick.ui.theme.Elevation
 import com.mperezt.rick.ui.theme.FontSize
@@ -47,8 +47,8 @@ import com.mperezt.rick.ui.theme.Space
 
 @Composable
 fun CharactersFiltersUi(
-    initialFilter: CharacterFilter = CharacterFilter(),
-    onApplyFilter: (CharacterFilter) -> Unit
+    initialFilter: CharacterFilterUi = CharacterFilterUi(),
+    onApplyFilter: (CharacterFilterUi) -> Unit
 ) {
     var showFilters by remember { mutableStateOf(false) }
     var filter by remember { mutableStateOf(initialFilter) }
@@ -95,8 +95,8 @@ fun CharactersFiltersUi(
                     showFilters = false
                 },
                 onClear = {
-                    filter = CharacterFilter()
-                    onApplyFilter(CharacterFilter())
+                    filter = CharacterFilterUi()
+                    onApplyFilter(CharacterFilterUi())
                 }
             )
         }
@@ -138,8 +138,8 @@ private fun SearchBar(
 
 @Composable
 private fun FiltersPanel(
-    filter: CharacterFilter,
-    onFilterChange: (CharacterFilter) -> Unit,
+    filter: CharacterFilterUi,
+    onFilterChange: (CharacterFilterUi) -> Unit,
     onApply: () -> Unit,
     onClear: () -> Unit
 ) {
@@ -225,10 +225,10 @@ private fun FilterTextField(
 
 @Composable
 private fun StatusDropdown(
-    selectedStatus: Status?,
-    onStatusSelected: (Status?) -> Unit
+    selectedStatus: StatusUi?,
+    onStatusSelected: (StatusUi?) -> Unit
 ) {
-    val statusOptions = listOf(null) + Status.values().toList()
+    val statusOptions = listOf(null) + StatusUi.values().toList()
     GenericDropdown(
         label = "Estado",
         options = statusOptions,
@@ -240,10 +240,10 @@ private fun StatusDropdown(
 
 @Composable
 fun GenderDropdown(
-    selectedGender: Gender?,
-    onGenderSelected: (Gender?) -> Unit
+    selectedGender: GenderUi?,
+    onGenderSelected: (GenderUi?) -> Unit
 ) {
-    val genderOptions = listOf(null) + Gender.entries
+    val genderOptions = listOf(null) + GenderUi.entries
     GenericDropdown(
         label = "Género",
         options = genderOptions,

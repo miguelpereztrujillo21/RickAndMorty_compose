@@ -2,11 +2,11 @@ package com.mperezt.rick.domain.usecases
 
 import com.mperezt.rick.domain.models.Character
 import com.mperezt.rick.domain.models.CharacterResponse
-import com.mperezt.rick.domain.models.Gender
+import com.mperezt.rick.ui.models.GenderUi
 import com.mperezt.rick.domain.models.Info
 import com.mperezt.rick.domain.models.Location
 import com.mperezt.rick.domain.models.Origin
-import com.mperezt.rick.domain.models.Status
+import com.mperezt.rick.ui.models.StatusUi
 import com.mperezt.rick.domain.repository.ICharactersRepository
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -32,8 +32,8 @@ class GetCharactersUseCaseTest {
     private fun createMockCharacter(
         id: Int,
         name: String,
-        status: String = Status.Alive.value,
-        gender: String = Gender.Male.value
+        status: String = StatusUi.Alive.value,
+        gender: String = GenderUi.Male.value
     ): Character {
         return Character(
             id = id,
@@ -96,10 +96,10 @@ class GetCharactersUseCaseTest {
     fun `invoke should apply filters correctly`() = runTest {
         // Given
         val name = "Rick"
-        val status = Status.Alive.value
+        val status = StatusUi.Alive.value
         val species = "Human"
         val type = ""
-        val gender = Gender.Male.value
+        val gender = GenderUi.Male.value
 
         val mockCharacters = listOf(createMockCharacter(1, "Rick"))
 

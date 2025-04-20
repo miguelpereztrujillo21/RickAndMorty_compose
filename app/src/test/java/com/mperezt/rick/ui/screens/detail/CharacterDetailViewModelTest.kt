@@ -2,10 +2,10 @@ package com.mperezt.rick.ui.screens.detail
 
 import androidx.lifecycle.SavedStateHandle
 import com.mperezt.rick.domain.models.Character
-import com.mperezt.rick.domain.models.Gender
+import com.mperezt.rick.ui.models.GenderUi
 import com.mperezt.rick.domain.models.Location
 import com.mperezt.rick.domain.models.Origin
-import com.mperezt.rick.domain.models.Status
+import com.mperezt.rick.ui.models.StatusUi
 import com.mperezt.rick.domain.usecases.GetCharacterByIdUseCase
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -89,10 +89,10 @@ class CharacterDetailViewModelTest {
         return Character(
             id = id,
             name = "Rick Sanchez",
-            status = Status.Alive.value,
+            status = StatusUi.Alive.value,
             species = "Human",
             type = "",
-            gender = Gender.Male.value,
+            gender = GenderUi.Male.value,
             origin = Origin("Earth", ""),
             location = Location("Earth", ""),
             image = "https://example.com/rick.jpg",

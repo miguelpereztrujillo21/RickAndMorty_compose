@@ -1,20 +1,20 @@
-package com.mperezt.rick.domain.models
+package com.mperezt.rick.ui.models
 
-data class CharacterFilter(
+data class CharacterFilterUi(
     val name: String? = null,
-    val status: Status? = null,
+    val status: StatusUi? = null,
     val species: String? = null,
     val type: String? = null,
-    val gender: Gender? = null
+    val gender: GenderUi? = null
 )
 
-enum class Status(val value: String) {
+enum class StatusUi(val value: String) {
     Alive("alive"),
     Dead("dead"),
     Unknown("unknown")
 }
 
-enum class Gender(val value: String) {
+enum class GenderUi(val value: String) {
     Female("female"),
     Male("male"),
     Genderless("genderless"),
