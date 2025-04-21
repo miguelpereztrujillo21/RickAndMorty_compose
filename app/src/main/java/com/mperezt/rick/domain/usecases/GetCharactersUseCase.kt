@@ -2,6 +2,7 @@ package com.mperezt.rick.domain.usecases
 
 import com.mperezt.rick.domain.models.CharacterResponse
 import com.mperezt.rick.domain.repository.ICharactersRepository
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class GetCharactersUseCase @Inject constructor(
@@ -15,6 +16,7 @@ class GetCharactersUseCase @Inject constructor(
         type: String? = null,
         gender: String? = null
     ): CharacterResponse {
+        delay(400)
         return repository.getCharacters(
             page = page,
             name = name,

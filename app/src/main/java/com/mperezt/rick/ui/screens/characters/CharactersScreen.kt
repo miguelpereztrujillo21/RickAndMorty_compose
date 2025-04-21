@@ -1,6 +1,7 @@
 package com.mperezt.rick.ui.screens.characters
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,63 +33,57 @@ fun CharactersScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
-    when {
-        state.isLoading && state.characters == null -> {
-            LoadingScreen()
+    Box(modifier = Modifier.fillMaxSize()) {
+        val characters = state.characters?.results.orEmpty()
+
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(WindowInsets.statusBars.asPaddingValues())
+        ) {
+            item {
+                Image(
+                    painter = rememberAsyncImagePainter(model = R.drawable.ic_logo),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .fillParentMaxWidth()
+                        .padding(Padding.Small)
+                        .height(IconSize.Logo),
+                    alignment = Alignment.Center
+                )
+            }
+            item {
+                CharactersFiltersUi(
+                    initialFilter = state.filter,
+                    onApplyFilter = { filter ->
+                        viewModel.applyFilter(filter)
+                    }
+                )
+            }
+
+            items(characters) { character ->
+                CharacterListItem(
+                    character = character,
+                    onClick = { onCharactersClick(character.id) }
+                )
+                if (character == characters.lastOrNull() && !state.isLoading && !state.isLastPage) {
+                    LaunchedEffect(key1 = character.id) {
+                        viewModel.loadCharacters()
+                    }
+                }
+            }
         }
-        state.error != null && state.characters == null -> {
+
+        if (state.error != null && state.characters == null) {
             ErrorPopup(
-                errorMessage = state.error, // Usa la sobrecarga que acepta String?
+                errorMessage = state.error,
                 onRetry = { viewModel.loadCharacters() },
                 onDismiss = {}
             )
         }
-        else -> {
-            val characters = state.characters?.results.orEmpty()
 
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(WindowInsets.statusBars.asPaddingValues())
-            ) {
-                item{
-                    Image(
-                        painter = rememberAsyncImagePainter(model = R.drawable.ic_logo),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .fillParentMaxWidth()
-                            .padding(Padding.Small)
-                            .height(IconSize.Logo),
-                        alignment = Alignment.Center
-                    )
-                }
-                item {
-                    CharactersFiltersUi(
-                        initialFilter = state.filter,
-                        onApplyFilter = { filter ->
-                            viewModel.applyFilter(filter)
-                        }
-                    )
-                }
-
-                items(characters) { character ->
-                    CharacterListItem(
-                        character = character,
-                        onClick = {  onCharactersClick(character.id) }
-                    )
-                    if (character == characters.lastOrNull() && !state.isLoading && !state.isLastPage) {
-                        LaunchedEffect(key1 = character.id) {
-                            viewModel.loadCharacters()
-                        }
-                    }
-                }
-
-                item {
-                    if (state.isLoading && characters.isNotEmpty()) {
-                        LoadingScreen()
-                    }
-                }
-            }
+        if (state.isLoading) {
+            LoadingScreen()
         }
     }
 }

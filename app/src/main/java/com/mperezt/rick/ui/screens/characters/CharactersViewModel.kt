@@ -1,9 +1,9 @@
 package com.mperezt.rick.ui.screens.characters
 
-import com.mperezt.rick.ui.models.CharacterFilterUi
 import com.mperezt.rick.domain.usecases.GetCharactersUseCase
 import com.mperezt.rick.ui.base.BaseViewModel
 import com.mperezt.rick.ui.mappers.toUi
+import com.mperezt.rick.ui.models.CharacterFilterUi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
